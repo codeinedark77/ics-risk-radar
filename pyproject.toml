@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ics-risk-radar"
+version = "0.2.0"
+description = "Defensive risk assessment for OT/ICS environments (IEC 62443 / NIST SP 800-82 aligned)"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.4",
+    "PyYAML>=6.0",
+]
+
+[project.scripts]
+ics-risk-radar = "ics_risk_radar.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["ics_risk_radar*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,67 @@
+# Example OT/ICS inventory for ics-risk-radar.
+# All values here are illustrative -- point this file at a copy of
+# your own asset register.
+
+zones:
+  - id: it
+    name: Corporate IT
+    criticality: low
+  - id: dmz
+    name: IT/OT DMZ
+    criticality: medium
+  - id: ot-l2
+    name: OT Level 2 - Supervisory
+    criticality: high
+  - id: ot-l1
+    name: OT Level 1 - Control
+    criticality: safety
+
+conduits:
+  - id: it-to-dmz
+    source_zone: it
+    target_zone: dmz
+    protocols: [opc_ua]
+    has_firewall: true
+    is_monitored: true
+  - id: dmz-to-l2
+    source_zone: dmz
+    target_zone: ot-l2
+    protocols: [opc_ua]
+    has_firewall: true
+    is_monitored: false
+  - id: l2-to-l1
+    source_zone: ot-l2
+    target_zone: ot-l1
+    protocols: [modbus_tcp]
+    has_firewall: false
+    is_monitored: false
+
+assets:
+  - id: hmi-1
+    name: Line 1 HMI
+    asset_type: hmi
+    zone_id: ot-l2
+    vendor: example-vendor
+    firmware_version: "3.2.1"
+    firmware_latest_known: "3.4.0"
+    protocols: [opc_ua]
+    has_authentication: true
+
+  - id: plc-1
+    name: Line 1 PLC
+    asset_type: plc
+    zone_id: ot-l1
+    vendor: example-vendor
+    firmware_version: "1.0.4"
+    firmware_latest_known: "1.0.4"
+    protocols: [modbus_tcp]
+    has_authentication: false
+    internet_facing: false
+
+  - id: hist-1
+    name: Plant Historian
+    asset_type: historian
+    zone_id: dmz
+    internet_facing: true
+    has_authentication: true
+    uses_default_credentials: true
